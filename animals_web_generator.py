@@ -12,16 +12,20 @@ def serialize_animal(animal):
     output = '<li class="cards__item">\n'
     if "name" in animal:
         output += f"<div class='card__title'>{animal['name']}</div>\n"
-    output += "<p class='card__text'>\n"
+    output += "<div class='card__text'>\n"
+    output += "<div class='taxonomy-box'><h3>Taxonomy</h3><ul class='taxonomy-list'>\n"
+    if "taxonomy" in animal:
+        for key, value in animal["taxonomy"].items():
+            output += f"<li class='taxonomy-item'><strong>{key.capitalize()}:</strong> {value}</li>\n"
+    output += "</ul></div>\n"
+    output += "<div class='characteristics-box'><h3>Characteristics</h3><ul class='characteristics-list'>\n"
     if "characteristics" in animal:
-        if "diet" in animal["characteristics"]:
-            output += f"<strong>Diet:</strong> {animal['characteristics']['diet']}<br/>\n"
+        for key, value in animal["characteristics"].items():
+            output += f"<li class='characteristics-item'><strong>{key.replace('_', ' ').capitalize()}:</strong> {value}</li>\n"
+    output += "</ul></div>\n"
     if "locations" in animal and animal["locations"]:
-        output += f"<strong>Location:</strong> {animal['locations'][0]}<br/>\n"
-    if "characteristics" in animal:
-        if "type" in animal["characteristics"]:
-            output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n"
-    output += "</p></li>\n"
+        output += f"<div class='locations-box'><h3>Locations</h3><ul class='locations-list'><li class='locations-item'>{', '.join(animal['locations'])}</li></ul></div>\n"
+    output += "</div></li>\n"
     return output
 
 
