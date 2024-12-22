@@ -7,23 +7,29 @@ def load_data(file_path):
         return json.load(handle)
 
 
+def serialize_animal(animal):
+    """Serializes a single animal object to HTML format."""
+    output = '<li class="cards__item">\n'
+    if "name" in animal:
+        output += f"<div class='card__title'>{animal['name']}</div>\n"
+    output += "<p class='card__text'>\n"
+    if "characteristics" in animal:
+        if "diet" in animal["characteristics"]:
+            output += f"<strong>Diet:</strong> {animal['characteristics']['diet']}<br/>\n"
+    if "locations" in animal and animal["locations"]:
+        output += f"<strong>Location:</strong> {animal['locations'][0]}<br/>\n"
+    if "characteristics" in animal:
+        if "type" in animal["characteristics"]:
+            output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n"
+    output += "</p></li>\n"
+    return output
+
+
 def generate_animal_info(animals_data):
     """Generates a string with the animal information in HTML format."""
     output = ''
     for animal in animals_data:
-        output += '<li class="cards__item">'
-        if "name" in animal:
-            output += f"<div class='card__title'>{animal['name']}</div>"
-        output += "<p class='card__text'>"
-        if "characteristics" in animal:
-            if "diet" in animal["characteristics"]:
-                output += f"<strong>Diet:</strong> {animal['characteristics']['diet']}<br/>\n"
-        if "locations" in animal and animal["locations"]:
-            output += f"<strong>Location:</strong> {animal['locations'][0]}<br/>\n"
-        if "characteristics" in animal:
-            if "type" in animal["characteristics"]:
-                output += f"<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n"
-        output += '</p></li>\n'
+        output += serialize_animal(animal)
     return output
 
 
